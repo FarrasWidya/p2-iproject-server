@@ -15,6 +15,8 @@ class contentController {
       next(err)
     }
   }
+
+  
 }
 
 module.exports = contentController

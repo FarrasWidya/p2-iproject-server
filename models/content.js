@@ -24,5 +24,9 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'Content',
   });
+  Content.beforeCreate(content =>{
+    content.upvote = 0
+    content.downvote = 0
+  })
   return Content;
 };
