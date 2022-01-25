@@ -16,7 +16,27 @@ class contentController {
     }
   }
 
-  
+  static async postNewContent(req, res, next) {
+    try {
+
+
+      const { title, content, TagId } = req.body
+
+      const newData = await Content.create({
+        UserId: +req.currentUser.id,
+        title: title,
+        content: content,
+        TagId: TagId
+      })
+
+      res.status(201).json({ message: 'Content has been created !' })
+
+
+    } catch (err) {
+      console.log(err)
+      next(err)
+    }
+  }
 }
 
 module.exports = contentController
