@@ -11,7 +11,7 @@ index.post('/login',userController.login)
 //Content Handler
 
 //get all content
-// index.get('/content',contentController)
+index.get('/content',contentController.getAllData)
 //post new content
 // index.post('/content',contentController)
 //get content by id
