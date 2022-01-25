@@ -6,7 +6,7 @@ const contentController = require('../controllers/contentController');
 
 //User Handler
 index.post('/register', userController.register)
-// index.post('/login',userController)
+index.post('/login',userController.login)
 
 //Content Handler
 
