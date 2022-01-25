@@ -2,6 +2,7 @@
 const {
   Model
 } = require('sequelize');
+const { createHash } = require('../helpers/bcrypt');
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -24,5 +25,10 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'User',
   });
+
+  User.beforeCreate(user =>{
+    user.password = createHash(user.password)
+    user.avatar = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwTQqGv96_N5dZwGMyWrE5HfgSO1O3tSBeINP8KFG1gM0wPjSgfLR97fc3Z5UmheBkWV4&usqp=CAU"
+  })
   return User;
 };
