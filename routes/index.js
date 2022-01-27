@@ -24,4 +24,3 @@ module.exports = index
 
 
 
-//kurang facebook auth
