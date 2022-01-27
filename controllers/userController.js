@@ -1,13 +1,14 @@
-const {User} = require('../models');
-const {compareHash} = require('../helpers/bcrypt');
-const {createJWT} = require('../helpers/jwt');
+const { User } = require('../models');
+const { compareHash } = require('../helpers/bcrypt');
+const { createJWT } = require('../helpers/jwt');
 
-class userController{
+
+class userController {
   static async register(req, res, next) {
     try {
       const { email, password, username, avatar, gender, bio } = req.body
       const registerForm = { email, password, username, avatar, gender, bio }
-
+      
       const newUser = await User.create(registerForm)
       res.status(201).json({
         id: newUser.id,
@@ -29,8 +30,11 @@ class userController{
         throw ({ name: 'nopassword' })
       }
       const findUser = await User.findOne({
-        email: email
+        where: {
+          email: email
+        }
       })
+      console.log(email)
 
       if (!findUser) {
         throw ({ name: 'NotFound' })
@@ -42,16 +46,17 @@ class userController{
       const payload = {
         id: findUser.id,
         email: findUser.email,
-        username:findUser.username
+        username: findUser.username
       }
-     
+
 
       const token = createJWT(payload)
 
       res.status(200).json({
         access_token: token,
-         dataId : payload.id ,
-         dataUsername:payload.username
+        dataId: payload.id,
+        dataEmail: payload.email,
+        dataUsername: payload.username
       })
 
     } catch (err) {

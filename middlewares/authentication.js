@@ -15,7 +15,9 @@ const authentication = async (req, res, next) => {
       req.currentUser = {
         id: findId.id,
       }
+      
       next()
+      
     }
   } catch (err) {
     next(err)

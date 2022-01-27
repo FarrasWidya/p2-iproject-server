@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/FarrasWidya/p2-iproject-server#readme",
   "dependencies": {
+    "axios": "^0.25.0",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^14.2.0",

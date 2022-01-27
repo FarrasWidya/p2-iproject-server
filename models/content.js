@@ -11,6 +11,9 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Content.hasMany(models.Comment)
+      Content.belongsTo(models.Tag)
+      Content.belongsTo(models.User)
     }
   }
   Content.init({
@@ -18,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
     content: DataTypes.STRING,
     upvote: DataTypes.INTEGER,
     downvote: DataTypes.INTEGER,
-    UserId: DataTypes.INTEGER,
+    UserId:DataTypes.INTEGER,
     TagId: DataTypes.INTEGER
   }, {
     sequelize,
