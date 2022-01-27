@@ -24,7 +24,7 @@ class contentController {
         exclude: ['createdAt', 'updatedAt']
       },
       where: {},
-      order:[['id','DESC']]
+      order: [['id', 'DESC']]
     }
 
     if (+TagId === 1) {
@@ -48,26 +48,6 @@ class contentController {
     }
   }
 
-  // static async postNewContent(req, res, next) {
-  //   try {
-
-  //     const { title, content, TagId } = req.body
-
-  //     const newData = await Content.create({
-  //       UserId: req.currentUser.id,
-  //       title: title,
-  //       content: content,
-  //       TagId: TagId
-  //     })
-
-  //     res.status(201).json({ message: 'Content has been created !' })
-
-
-  //   } catch (err) {
-  //     next(err)
-  //   }
-  // }
-  //belom di push
   static async getDataById(req, res, next) {
     try {
       const { contentId } = req.params
@@ -132,7 +112,7 @@ class contentController {
         ContentId: req.params.contentId
       })
 
-      res.status(201).json({ message: 'comment has been created !' })
+      res.status(201).json({ message: 'Comment has been created !' })
     } catch (err) {
 
       next(err)
@@ -192,14 +172,29 @@ class contentController {
     try {
       const { contentId } = req.params
 
+
+      await Comment.destroy({
+        where: {
+          ContentId: contentId
+        }
+      })
+      await Vote.destroy({
+        where:{
+          ContentId : contentId
+        }
+      })
       const deleteContent = await Content.destroy({
         where: {
           id: +contentId
         }
       })
+      if (!deleteContent) {
+        throw { name: 'notfound' }
+      }
 
       res.status(200).json({ message: 'content has been deleted' })
     } catch (err) {
+      console.log(err)
       next(err)
     }
   }
@@ -207,8 +202,23 @@ class contentController {
   static async postMeme(req, res, next) {
     try {
       const { addTag, addTitle, bottomText, topText, inputMeme } = req.query
-   
-    
+
+      if (!addTag) {
+        throw { name: 'TagId is required' }
+      }
+      if (!addTitle) {
+        throw { name: 'Title is required' }
+      }
+      if (!bottomText) {
+        throw { name: 'Bottom text is required' }
+      }
+      if (!topText) {
+        throw { name: 'Top text is required' }
+      }
+      if (!inputMeme) {
+        throw { name: 'Template is required' }
+      }
+
       let data = {
         "template_id": inputMeme,
         "username": process.env.APIusername,
@@ -229,25 +239,25 @@ class contentController {
           title: addTitle,
           TagId: addTag,
           content: response.data.data.url,
-          UserId : req.currentUser.id
+          UserId: req.currentUser.id
         })
       }
 
       res.status(201).json({ message: 'new meme has been created !' })
 
     } catch (err) {
-
+      console.log(err)
       next(err)
     }
   }
 
-  static async getTimezone(req,res,next){
+  static async getTimezone(req, res, next) {
     try {
 
-    const response = await axios.get(`https://timezone.abstractapi.com/v1/current_time/?api_key=${process.env.APIKEYTIMEZONE}&location=Jakarta, Indonesia`)
+      const response = await axios.get(`https://timezone.abstractapi.com/v1/current_time/?api_key=${process.env.APIKEYTIMEZONE}&location=Jakarta, Indonesia`)
 
-    res.status(200).json(response.data)
-      
+      res.status(200).json(response.data)
+
     } catch (err) {
       next(err)
     }

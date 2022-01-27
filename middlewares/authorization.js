@@ -3,6 +3,7 @@ const { Content, User } = require('../models')
 
 
 const authorization = async (req, res, next) => {
+  
   try {
     const findContent = await Content.findByPk(req.params.contentId)
     const findUser = await User.findByPk(req.currentUser.id)
@@ -20,7 +21,7 @@ const authorization = async (req, res, next) => {
 
 
   } catch (err) {
-    
+    console.err
     next(err)
   }
 

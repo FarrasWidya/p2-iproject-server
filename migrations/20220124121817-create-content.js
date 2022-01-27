@@ -20,10 +20,7 @@ module.exports = {
         allowNull: false,
         type: Sequelize.INTEGER
       },
-      downvote: {
-        allowNull: false,
-        type: Sequelize.INTEGER
-      },
+
       UserId: {
         type: Sequelize.INTEGER,
         references:{
