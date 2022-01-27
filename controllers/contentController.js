@@ -23,7 +23,8 @@ class contentController {
       attributes: {
         exclude: ['createdAt', 'updatedAt']
       },
-      where: {}
+      where: {},
+      order:[['id','DESC']]
     }
 
     if (+TagId === 1) {
@@ -42,7 +43,7 @@ class contentController {
       const allData = await Content.findAll(query)
       res.status(200).json(allData)
     } catch (err) {
-
+      console.log(err)
       next(err)
     }
   }
